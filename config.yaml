@@ -1,0 +1,72 @@
+# config.yaml
+
+# Model and Tokenizer
+name_model: "NousResearch/Llama-2-7b-hf"
+mode_quant: null # "8bit", "4bit", or null
+model_precision: "bf16" # "fp32", "fp16", "bf16"
+
+# Federated Learning Setup
+num_communication_rounds: 800
+num_clients: 10
+num_clients_per_round: 2
+num_local_steps: 10
+
+# Training Hyperparameters
+batch_size: 6 # batch_size per gpu! 
+max_grad_norm: 1.0
+gradient_accumulation_steps: 1
+ddp_find_unused_parameters: false
+enable_gradient_checkpoint: false
+
+# Saving Config
+checkpoint_dir: /inspire/hdd/project/yunweiyuhuifu/yaozhiyi-p-yaozhiyi/wenming/experiment/feddp/0628test_fedfa_iid/
+save_every_n_rounds: 100
+log_every_n_steps: 10
+
+# Nested Configurations
+lora_config:
+  r: 16
+  lora_alpha: 32
+  target_modules: ["q_proj", "v_proj"]
+  lora_dropout: 0.05
+  bias: "none" # "none", "all", or "lora_only"
+  task_type: "CAUSAL_LM"
+
+optimizer_config:
+  lr: 5e-4 # 2e-5
+  weight_decay: 0.0
+  betas: [0.9, 0.999]
+  eps: 0.00000001 # 1e-8
+
+scheduler_config:
+  name: "constant_with_warmup" # "linear", "cosine", "constant_with_warmup"
+  num_warmup_steps: 3
+
+data:
+  name_dataset: "databricks/databricks-dolly-15k"
+  name_localdatadir: "/inspire/hdd/project/yunweiyuhuifu/yaozhiyi-p-yaozhiyi/huggingface_models_datasets/hub/datasets--databricks--databricks-dolly-15k/snapshots/bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a"
+  num_sample_all: 15000
+  mode_datadist: "iid" # "iid" or "dirichlet-noniid"
+  para_niid_deg: 0.1 # Alpha for Dirichlet if non-iid
+  template: "alpaca" # Template name for formatting prompts ("alpaca", "kpmath")
+  max_seq_length: 512
+  num_workers: 0
+
+policy:
+  name: "fedavg" # Name of the policy, e.g., "fedavg", "fedask", "fedprox", "scaffold"
+  freezeA: true # Relevant for LoRA A matrices
+  init_config: # Policy-specific initialization parameters
+    s_sketch_dim: 16 # Example value, adjust as needed
+    lora_rank: 16   # Should match lora_config.r if FedASK reconstructs LoRA
+    # For "fedask", you might need:
+    # s_sketch_dim: 64 # Example value, adjust as needed
+    # lora_rank: 16   # Should match lora_config.r if FedASK reconstructs LoRA
+
+privacy:
+  use_privacy: false
+  target_epsilon: 1.0
+  target_delta: 1e-5
+  target_grad_clip_persample: 1.0
+
+# General
+seed: 42
