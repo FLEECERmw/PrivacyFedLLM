@@ -1,6 +1,6 @@
 
 # FedASK: Differentially Private Federated Low-Rank Adaptation
-[cite_start]This repository contains the official implementation for the paper: **"Differentially Private Federated Low Rank Adaptation Beyond Fixed-Matrix"**[cite: 1].
+This repository contains the official implementation for the paper: **"Differentially Private Federated Low Rank Adaptation Beyond Fixed-Matrix"**.
 
 ## ✨ Key Features
 
@@ -14,10 +14,6 @@ This framework supports a variety of flexible experimental configurations out of
 ## 🛠️ Setup
 
 1.  **Clone the Repository**
-    ```bash
-    git clone [https://github.com/your-username/PrivacyFedLLM.git](https://github.com/your-username/PrivacyFedLLM.git)
-    cd PrivacyFedLLM
-    ```
 
 2.  **Create and Activate Conda Environment**
     We recommend using Conda to manage the project's dependencies.
@@ -80,11 +76,11 @@ python merge_adapter.py \
 
 If you find our work useful in your research, please consider citing our paper:
 
-```bibtex
+<!-- ```bibtex
 @article{anonymous2025fedask,
   title={Differentially Private Federated Low Rank Adaptation Beyond Fixed-Matrix},
   author={Anonymous Author(s)},
   journal={Submitted to 39th Conference on Neural Information Processing Systems (NeurIPS 2025)},
   year={2025}
-}
+} -->
 ```
