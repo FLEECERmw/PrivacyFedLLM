@@ -6,32 +6,32 @@ from peft import PeftModel
 
 def main():
     """
-    一个用于将PEFT LoRA适配器与基础模型融合并保存的脚本。
+    A script to merge PEFT LoRA adapters with the base model and save the result.
     """
-    parser = argparse.ArgumentParser(description="将LoRA适配器与基础模型融合。")
+    parser = argparse.ArgumentParser(description="Merge a LoRA adapter with a base model.")
     parser.add_argument(
         "--base_model_path", 
         type=str, 
         required=True, 
-        help="基础语言模型（例如 Llama-2-7B）的路径或Hugging Face Hub名称。"
+        help="The path or Hugging Face Hub name of the base language model (e.g., Llama-2-7B)."
     )
     parser.add_argument(
         "--adapter_path", 
         type=str, 
         required=True, 
-        help="包含 adapter_config.json 和 adapter_model.safetensors 的LoRA适配器检查点(ckpt)的目录路径。"
+        help="The directory path of the LoRA adapter checkpoint (ckpt) containing adapter_config.json and adapter_model.safetensors."
     )
     parser.add_argument(
         "--output_path", 
         type=str, 
         required=True, 
-        help="保存融合后新模型的目录路径。"
+        help="The directory path to save the new, merged model."
     )
     args = parser.parse_args()
 
-    print(f"开始加载基础模型: {args.base_model_path}")
-    # 加载基础模型和分词器
-    # 我们使用 bfloat16 来获得更好的性能和显存效率
+    print(f"Starting to load the base model: {args.base_model_path}")
+    # Load the base model and tokenizer
+    # We use bfloat16 for better performance and memory efficiency
     base_model = AutoModelForCausalLM.from_pretrained(
         args.base_model_path,
         return_dict=True,
@@ -41,27 +41,27 @@ def main():
     
     tokenizer = AutoTokenizer.from_pretrained(args.base_model_path)
 
-    print(f"加载LoRA适配器: {args.adapter_path}")
-    # 加载PEFT模型，这将把LoRA模块加载到基础模型之上
-    # 此时，模型是 PeftModel 类型
+    print(f"Loading the LoRA adapter: {args.adapter_path}")
+    # Load the PEFT model, which will load the LoRA modules on top of the base model
+    # At this point, the model is of type PeftModel
     model = PeftModel.from_pretrained(base_model, args.adapter_path)
-    print("适配器加载完成。")
+    print("Adapter loaded successfully.")
 
-    print("开始融合适配器权重...")
-    # 调用 merge_and_unload 将适配器权重合并到基础模型中
-    # 执行后，模型会变回 AutoModelForCausalLM 类型
+    print("Starting to merge adapter weights...")
+    # Call merge_and_unload to combine the adapter weights into the base model
+    # After execution, the model will revert to the AutoModelForCausalLM type
     model = model.merge_and_unload()
-    print("权重融合完成。")
+    print("Weight merging complete.")
 
-    print(f"保存融合后的完整模型到: {args.output_path}")
-    # 创建输出目录
+    print(f"Saving the merged full model to: {args.output_path}")
+    # Create the output directory
     os.makedirs(args.output_path, exist_ok=True)
     
-    # 保存模型和分词器
+    # Save the model and tokenizer
     model.save_pretrained(args.output_path)
     tokenizer.save_pretrained(args.output_path)
     
-    print("所有操作完成！融合后的模型已保存。")
+    print("All operations complete! The merged model has been saved.")
 
 if __name__ == "__main__":
     main()

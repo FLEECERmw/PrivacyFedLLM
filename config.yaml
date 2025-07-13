@@ -19,7 +19,7 @@ ddp_find_unused_parameters: false
 enable_gradient_checkpoint: false
 
 # Saving Config
-checkpoint_dir: /inspire/hdd/project/yunweiyuhuifu/yaozhiyi-p-yaozhiyi/wenming/experiment/feddp/0628test_fedfa_iid/
+checkpoint_dir: ./experiment_checkpoint
 save_every_n_rounds: 100
 log_every_n_steps: 10
 
@@ -44,7 +44,7 @@ scheduler_config:
 
 data:
   name_dataset: "databricks/databricks-dolly-15k"
-  name_localdatadir: "/inspire/hdd/project/yunweiyuhuifu/yaozhiyi-p-yaozhiyi/huggingface_models_datasets/hub/datasets--databricks--databricks-dolly-15k/snapshots/bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a"
+  name_localdatadir: "./dataset_cache"
   num_sample_all: 15000
   mode_datadist: "iid" # "iid" or "dirichlet-noniid"
   para_niid_deg: 0.1 # Alpha for Dirichlet if non-iid
