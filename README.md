@@ -76,11 +76,14 @@ python merge_adapter.py \
 
 If you find our work useful in your research, please consider citing our paper:
 
-<!-- ```bibtex
-@article{anonymous2025fedask,
-  title={Differentially Private Federated Low Rank Adaptation Beyond Fixed-Matrix},
-  author={Anonymous Author(s)},
-  journal={Submitted to 39th Conference on Neural Information Processing Systems (NeurIPS 2025)},
-  year={2025}
-} -->
-```
+```bibtex
+@misc{wen2025differentiallyprivatefederatedlow,
+      title={Differentially Private Federated Low Rank Adaptation Beyond Fixed-Matrix}, 
+      author={Ming Wen and Jiaqi Zhu and Yuedong Xu and Yipeng Zhou and Dingding Han},
+      year={2025},
+      eprint={2507.09990},
+      archivePrefix={arXiv},
+      primaryClass={cs.CR},
+      url={https://arxiv.org/abs/2507.09990}, 
+}
+``` 
